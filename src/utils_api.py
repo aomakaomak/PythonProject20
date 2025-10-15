@@ -36,10 +36,13 @@ def get_vacancies_per_id(id: int) -> List:
         else:
             salary = vacancy.get("salary").get("from")
         vacancy_dict = {
-            "name": vacancy.get("name"),
+            "vacancy_id": vacancy.get("id"),
+            "vacancy_name": vacancy.get("name"),
             "city": vacancy.get("area").get("name"),
             "salary": salary,
-            "link": vacancy.get("alternate_url")
+            "link": vacancy.get("alternate_url"),
+            "employer_id": id,
+            "employer_name": vacancy.get("employer").get("name")
         }
         vacancy_list.append(vacancy_dict)
     return vacancy_list
