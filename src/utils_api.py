@@ -1,6 +1,7 @@
 import requests
+from typing import List
 
-def get_id(company_name):
+def get_id(company_name: str) -> int:
     """Получаем ID компании. Так как их в выдаче много, то берем с максиммальным
     количеством вакансий"""
     headers = {"User-Agent": "demo-script/1.0"}
@@ -20,7 +21,7 @@ def get_id(company_name):
     print(best)
     return best["id"]
 
-def get_vacancies_per_id(id):
+def get_vacancies_per_id(id: int) -> List:
     """Формируем список вакансий компании на основе ID"""
     headers = {"User-Agent": "demo-script/1.0"}
     url = f"https://api.hh.ru/vacancies?employer_id={id}"
