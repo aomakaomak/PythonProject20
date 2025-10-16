@@ -1,23 +1,27 @@
-import psycopg2
-from src.utils_api import get_vacancies_per_id, get_id
-from src.utils_bd import create_db_employers, create_db_vacancies, insert_db_employers, insert_db_vacancies
+from typing import List
 
-def create_db_for_our_companies(employers_list):
+import psycopg2
+
+from src.utils_api import get_id, get_vacancies_per_id
+from src.utils_bd import (
+    create_db_employers,
+    create_db_vacancies,
+    insert_db_employers,
+    insert_db_vacancies,
+)
+
+
+def create_db_for_our_companies(employers_list: List) -> None:
+    """Финальная функция для вызова в main"""
     conn = psycopg2.connect(
-        host="localhost",
-        database="pythontask",
-        user="postgres",
-        password="yompks83new"
+        host="localhost", database="pythontask", user="postgres", password="yompks83new"
     )
     cur = conn.cursor()
-
-
 
     employers_id = []
     for employer in employers_list:
         employers_id.append(get_id(employer))
     print(employers_id)
-
 
     vacancy_list = []
     for id in employers_id:
@@ -30,7 +34,6 @@ def create_db_for_our_companies(employers_list):
     insert_db_employers(vacancy_list, cur, conn)
     insert_db_vacancies(vacancy_list, cur, conn)
 
-
     cur.close()
     conn.close()
 
@@ -38,7 +41,3 @@ def create_db_for_our_companies(employers_list):
 # if __name__ == "__main__":
 #     employers_list = ["МТС", "Яндекс", "Сбербанк", "Газпром", "Аэрофлот"]
 #     create_db_for_our_companies(employers_list)
-
-
-
-

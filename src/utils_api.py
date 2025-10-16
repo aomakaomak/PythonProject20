@@ -1,13 +1,17 @@
-import requests
 from typing import List
+
+import requests
+
 
 def get_id(company_name: str) -> int:
     """Получаем ID компании. Так как их в выдаче много, то берем с максиммальным
     количеством вакансий"""
     headers = {"User-Agent": "demo-script/1.0"}
-    resp = requests.get("https://api.hh.ru/employers",
-                        params={"text": company_name, "only_with_vacancies": "true", "per_page": 50},
-                        headers=headers)
+    resp = requests.get(
+        "https://api.hh.ru/employers",
+        params={"text": company_name, "only_with_vacancies": "true", "per_page": 50},
+        headers=headers,
+    )
     if resp.status_code != 200:
         raise Exception(f"GitHub API error: {resp.status_code}")
     data = resp.json()["items"]
@@ -20,6 +24,7 @@ def get_id(company_name: str) -> int:
     print("URL:", best["alternate_url"])
     print(best)
     return best["id"]
+
 
 def get_vacancies_per_id(id: int) -> List:
     """Формируем список вакансий компании на основе ID"""
@@ -42,13 +47,12 @@ def get_vacancies_per_id(id: int) -> List:
             "salary": salary,
             "link": vacancy.get("alternate_url"),
             "employer_id": id,
-            "employer_name": vacancy.get("employer").get("name")
+            "employer_name": vacancy.get("employer").get("name"),
         }
         vacancy_list.append(vacancy_dict)
     return vacancy_list
 
 
-
-if __name__ == "__main__":
-    print(get_id("МТС"))
-    print(get_vacancies_per_id(2537115)[0])
+# if __name__ == "__main__":
+#     print(get_id("МТС"))
+#     print(get_vacancies_per_id(2537115)[0])
