@@ -22,7 +22,7 @@ def create_db_vacancies(cur, conn):
            employer_id int REFERENCES employers (employer_id),
            city varchar(100),
            salary varchar(100),
-           link varchar(300)
+           vacancy_link varchar(300)
            );
        """)
     conn.commit()
@@ -36,7 +36,7 @@ def insert_db_employers(employers_list: List, cur, conn):
 
 def insert_db_vacancies(vacancy_list: List, cur, conn):
     for vacancy in vacancy_list:
-        cur.execute("""INSERT INTO vacancies (vacancy_id, vacancy_name, employer_id, city, salary, link) 
+        cur.execute("""INSERT INTO vacancies (vacancy_id, vacancy_name, employer_id, city, salary, vacancy_link) 
                        VALUES (%s, %s, %s, %s, %s, %s) ON CONFLICT (vacancy_id) DO UPDATE SET vacancy_name = EXCLUDED.vacancy_name;""",
                     (vacancy.get("vacancy_id"), vacancy.get("vacancy_name"), vacancy.get("employer_id"), vacancy.get("city"), vacancy.get("salary"), vacancy.get("link")))
         conn.commit()
