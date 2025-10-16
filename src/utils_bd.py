@@ -21,7 +21,7 @@ def create_db_vacancies(cur, conn):
            vacancy_name varchar (300),
            employer_id int REFERENCES employers (employer_id),
            city varchar(100),
-           salary varchar(100),
+           salary int,
            vacancy_link varchar(300)
            );
        """)
